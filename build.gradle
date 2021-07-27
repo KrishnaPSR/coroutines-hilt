@@ -1,0 +1,82 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+buildscript {
+    ext.hilt_version = '2.35'
+
+    ext.kotlin_version = '1.5.0'
+    ext.objectboxVersion = '2.9.1'
+    ext.gradleVersion = '3.2.0'
+    ext.navigationVersion = '2.3.5'
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "com.android.tools.build:gradle:4.2.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
+        classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.6'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.5.0"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath 'io.fabric.tools:gradle:1.28.0'
+        classpath 'com.google.gms:google-services:4.1.0'
+        classpath 'org.jacoco:org.jacoco.core:0.8.2'
+    }
+}
+
+
+apply from: 'dependencies.gradle'
+
+//http://engineering.rallyhealth.com/android/code-coverage/testing/2018/06/04/android-code-coverage.html
+//apply from: rootProject.file('jacoco.gradle')
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://objectbox.net/beta-repo/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'https://jitpack.io' }
+        maven { url "https://dl.bintray.com/lion4ik/maven" }
+    }
+
+    configurations {
+        ktlint
+    }
+
+    dependencies {
+        ktlint "com.github.shyiko:ktlint:0.28.0"
+    }
+
+    // https://github.com/google/dagger/issues/306
+    afterEvaluate {
+        tasks.withType(JavaCompile.class) {
+            options.compilerArgs << "-Xmaxerrs" << "500"
+        }
+    }
+
+    tasks.withType(Test) {
+        testLogging {
+            events TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.STANDARD_ERROR,
+                    TestLogEvent.STANDARD_OUT
+            exceptionFormat TestExceptionFormat.FULL
+            showCauses true
+            showExceptions true
+            showStackTraces true
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

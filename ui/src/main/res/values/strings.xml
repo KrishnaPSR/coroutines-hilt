@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Sweets counter</string>
+    <string name="menu_data">Data</string>
+    <string name="menu_history">History</string>
+    <string name="menu_facts">Facts</string>
+    <string name="search_hint">Enter sweet name</string>
+    <string name="cals_per_100g">%d kcal/\n100g</string>
+    <string name="error_network_server">Could not download data, please try again later</string>
+    <string name="error_network_unavailable">Network is not available, cannot download data</string>
+    <string name="no_facts_available">No facts are available, make sure you are connected to the network</string>
+    <string name="no_sweets_available">No sweets are available, make sure you are connected to the network</string>
+    <string name="total_calories">Calories: </string>
+    <string name="add_sweet_title">Add sweet</string>
+    <string name="nutrition_info_title">Nutrition info</string>
+    <string name="enter_the_amount_title">Enter the amount</string>
+    <string name="unit_ounces">Ounces</string>
+    <string name="unit_grams">Grams</string>
+    <string name="unit_ounces_short_formatted">%doz.</string>
+    <string name="at_time_formatted">at %s</string>
+    <string name="unit_grams_short_formatted">%dg</string>
+    <string name="cals_formatted">%d kcal</string>
+    <string name="title_cals_per_100">Cals per 100g: %d</string>
+    <string name="title_nutritional_rating">Nutritional rating:</string>
+    <string name="title_protein">Protein: %.1fg</string>
+    <string name="title_fat">Fat: %.1fg</string>
+    <string name="title_carbs">Carbs: %.1fg</string>
+    <string name="title_sugars">Sugars: %.1fg</string>
+    <string name="add_sweet_validation_fail">Amount must be entered!</string>
+    <string name="error_no_consumed_sweets">No sweets eaten yet, bravo!</string>
+    <string name="consumed_data_title_spinner">Period:</string>
+    <string name="consumed_data_title_sweets_popularity">Top sweets</string>
+    <string name="consumed_data_title_sweets_rating_title">Sweets rating</string>
+    <string name="consumed_data_sweets_consumed">Sweets consumed: %d %s</string>
+    <string name="consumed_data_weight_gained">Weight gained: %d %s</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="add_sweet_validation_too_much">We both know it can\'t be true</string>
+    <string name="sweet_rating_good">Good</string>
+    <string name="sweet_rating_bad">Bad</string>
+    <string name="sweet_rating_average">Average</string>
+    <string name="top_sweets_pie_other">Other</string>
+    <string name="chart_no_data_no_sweets">No consumed sweets</string>
+    <string name="sweet_ratings_title">Sweet ratings</string>
+    <string name="got_it">Got it</string>
+    <string name="sweet_ratings_message">There are 3 unofficial sweet rating categories:</string>
+    <string name="description_rating_bad">Bad - >= 400kcal/100g or >= 30g of sugar per 100g</string>
+    <string name="description_rating_average">Average - >= 200kcal/100g or >= 10g of sugar per 100g</string>
+    <string name="description_rating_good">Good - &lt; 200kcal/100g and &lt; 10g of sugar per 100g</string>
+</resources>

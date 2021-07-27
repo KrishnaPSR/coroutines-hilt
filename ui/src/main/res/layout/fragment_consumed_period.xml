@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.content.Context" />
+        <import type="android.view.View" />
+        <import type="com.deividasstr.ui.features.consumedsweetdata.models.LowerPeriodModel" />
+
+        <variable
+            name="viewmodel"
+            type="com.deividasstr.ui.features.consumedsweetdata.ConsumedPeriodViewModel" />
+
+        <variable
+            name="chartlistener"
+            type="com.github.mikephil.charting.listener.OnChartValueSelectedListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/period_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/material_component_cards_top_and_bottom_padding"
+                android:paddingBottom="@dimen/material_component_cards_top_and_bottom_padding">
+
+                <TextView
+                    android:id="@+id/consumed_data_selected_date_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.upperPeriodModel.rangeText}"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/consumed_data_period_chart"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/chart_height"
+                    android:chartListener="@{chartlistener}"
+                    android:setConsumedData="@{viewmodel.upperPeriodModel.consumedBarData}"
+                    android:setDescriptionEnabled="@{false}"
+                    android:setLegendEnabled="@{false}"
+                    android:setScaleEnabled="@{false}"
+                    android:drawValueAboveBar="@{true}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/consumed_data_selected_date_range" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sub_period_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+            android:paddingTop="@dimen/material_component_cards_top_and_bottom_padding"
+            android:paddingBottom="@dimen/material_component_cards_top_and_bottom_padding"
+            android:visibility="@{viewmodel.lowerPeriodModel.subDateRangeText != null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/period_bar">
+
+            <TextView
+                android:id="@+id/sub_period_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{viewmodel.lowerPeriodModel.subDateRangeText}"
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/period_numbers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sub_period_container">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/material_component_cards_top_and_bottom_padding">
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/consumed_data_period_total_cals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{@string/total_calories(viewmodel.lowerPeriodModel.cals)}"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    app:ticker_animationDuration="@integer/duration_animation_longest"
+                    app:ticker_defaultCharacterList="number" />
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/consumed_data_period_units_consumed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{@string/consumed_data_sweets_consumed(viewmodel.lowerPeriodModel.unitsConsumed, context.getString(viewmodel.lowerPeriodModel.unitStringRes).toLowerCase())}"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    app:ticker_animationDuration="@integer/duration_animation_longest"
+                    app:ticker_defaultCharacterList="number" />
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/consumed_data_period_total_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{@string/consumed_data_weight_gained(viewmodel.lowerPeriodModel.weight, context.getString(viewmodel.lowerPeriodModel.unitStringRes).toLowerCase())}"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    app:ticker_animationDuration="@integer/duration_animation_longest"
+                    app:ticker_defaultCharacterList="number" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/period_popularity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+            android:padding="@dimen/material_component_cards_top_and_bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/period_numbers">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/consumed_data_sweets_popularity_chart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chart_height"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+                android:setPopularityData="@{viewmodel.lowerPeriodModel.sweetsPopularityData}"
+                android:setDescriptionEnabled="@{false}"
+                android:setLegendEnabled="@{false}"
+                android:usePercentVals="@{true}"
+                android:noDataTextColor="@{@color/black}"
+                android:noDataText="@{@string/chart_no_data_no_sweets}"
+                android:centerText="@{@string/consumed_data_title_sweets_popularity}"
+                android:centerTextSize="@{@dimen/text_size_medium}"
+                android:entryLabelColor="@{@color/black}"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+            android:padding="@dimen/material_component_cards_top_and_bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/period_popularity">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/consumed_data_sweets_rating_chart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chart_height"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/material_component_cards_top_and_bottom_padding"
+                android:setRatingData="@{viewmodel.lowerPeriodModel.sweetsRatingData}"
+                android:setDescriptionEnabled="@{false}"
+                android:setLegendEnabled="@{false}"
+                android:usePercentVals="@{true}"
+                android:noDataTextColor="@{@color/black}"
+                android:noDataText="@{@string/chart_no_data_no_sweets}"
+                android:centerTextSize="@{@dimen/text_size_medium}"
+                android:centerText="@{@string/consumed_data_title_sweets_rating_title}"
+                android:entryLabelColor="@{@color/black}"/>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
